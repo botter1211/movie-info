@@ -69,26 +69,28 @@ export default function Category() {
   }, [genreId, yearId]);
 
   const [searchParam, setSearchParam] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await apiService.get(
-          `search/keyword?api_key=${API_KEY}&query=${searchParam}&page=1`
-        );
-
-        setMovieList(res.data.results);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-    fetchData();
-  }, [searchParam]);
 
   const handleChange = (e) => {
     setSearchParam(e.target.value);
-    console.log(searchParam);
+    console.log(e.target.value);
   };
 
+  const fetchData = async (searchParam) => {
+    try {
+      const res = await apiService.get(
+        `search/movie?api_key=${API_KEY}&query=${searchParam}&page=1`
+      );
+
+      setMovieList(res.data.results);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const handleSubmit = () => {
+
+    fetchData(searchParam);
+  }
   const placeholder = [0, 1, 2, 3];
   const detailSkeleton = (
     <Stack spacing={1}>
@@ -101,7 +103,7 @@ export default function Category() {
       <Typography variant="h5" my={3}>
         CATEGORY
       </Typography>
-      <SearchBar onChange={handleChange} />
+      <SearchBar onChange={handleChange} onSubmit={handleSubmit} />
       <Divider />
       <Stack flexDirection="row" width="100%" justifyContent="space-between">
         <Stack minWidth="150px" width={{ xs: "10%" }}>
@@ -145,29 +147,7 @@ export default function Category() {
                 }}
               />
             </ListItemButton>
-            {searchParam &&
-              genresList.map((item) => (
-                <ListItemButton
-                  onClick={() => setGenreId(item.id)}
-                  key={item.id}
-                  sx={{
-                    py: 0,
-                    minHeight: 40,
-                    color: "rgba(255,255,255,.8)",
-                    "&:focus": {
-                      backgroundColor: "rgba(225,0,0,0.1)",
-                    },
-                  }}
-                >
-                  <ListItemText
-                    primary={item.name}
-                    primaryTypographyProps={{
-                      fontSize: 16,
-                      fontWeight: "light",
-                    }}
-                  />
-                </ListItemButton>
-              ))}
+
             {openGenres &&
               genresList.map((item) => (
                 <ListItemButton
@@ -255,15 +235,15 @@ export default function Category() {
         <Grid container direction="row" spacing={2} mt={2}>
           {loading
             ? placeholder.map((item) => (
-                <Grid item xs={10} sm={6} md={4} lg={3}>
-                  {detailSkeleton}
-                </Grid>
-              ))
+              <Grid item xs={10} sm={6} md={4} lg={3}>
+                {detailSkeleton}
+              </Grid>
+            ))
             : movieList.map((item) => (
-                <Grid item xs={10} sm={6} md={4} lg={3}>
-                  <MCard key={item.id} item={item} />
-                </Grid>
-              ))}
+              <Grid item xs={10} sm={6} md={4} lg={3}>
+                <MCard key={item.id} item={item} />
+              </Grid>
+            ))}
         </Grid>
       </Stack>
     </>

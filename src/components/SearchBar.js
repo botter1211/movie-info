@@ -43,14 +43,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function SearchBar({ handleChange }) {
-  // const [value, setValue] = React.useState();
-
-  // const handleSearch = (event) => {
-  //   // changed the "handleSearch()" function
-
-  //   console.log(value);
-  // };
+function SearchBar({ onChange, onSubmit }) {
   return (
     <Search>
       <SearchIconWrapper>
@@ -59,13 +52,12 @@ function SearchBar({ handleChange }) {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
-        //adding the onChange event
 
-        onChange={handleChange}
+        onChange={onChange}
       />
-      {/* <IconButton onSubmit={handleSearch}>
+      <IconButton onClick={onSubmit}>
         <SearchIcon />
-      </IconButton> */}
+      </IconButton>
     </Search>
   );
 }
