@@ -68,24 +68,27 @@ export default function Category() {
     fetchData();
   }, [genreId, yearId]);
 
-  // const [searchParam, setSearchParam] = useState("");
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await apiService.get(
-  //         `search/keyword?api_key=${API_KEY}&query=${searchParam}`
-  //       );
+  const [searchParam, setSearchParam] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await apiService.get(
+          `search/keyword?api_key=${API_KEY}&query=${searchParam}&page=1`
+        );
 
-  //       setMovieList(res.data.results);
-  //     } catch (e) {
-  //       console.log(e.message);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [searchParam]);
-  // const handleSearch = (e) => {
-  //   setSearchParam(e.target.value);
-  // };
+        setMovieList(res.data.results);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    fetchData();
+  }, [searchParam]);
+
+  const handleChange = (e) => {
+    setSearchParam(e.target.value);
+    console.log(searchParam);
+  };
+
   const placeholder = [0, 1, 2, 3];
   const detailSkeleton = (
     <Stack spacing={1}>
@@ -98,7 +101,7 @@ export default function Category() {
       <Typography variant="h5" my={3}>
         CATEGORY
       </Typography>
-      {/* <SearchBar onChange={(e) => setSearchParam(e.target.value)} /> */}
+      <SearchBar onChange={handleChange} />
       <Divider />
       <Stack flexDirection="row" width="100%" justifyContent="space-between">
         <Stack minWidth="150px" width={{ xs: "10%" }}>
@@ -142,7 +145,7 @@ export default function Category() {
                 }}
               />
             </ListItemButton>
-            {/* {searchParam &&
+            {searchParam &&
               genresList.map((item) => (
                 <ListItemButton
                   onClick={() => setGenreId(item.id)}
@@ -164,7 +167,7 @@ export default function Category() {
                     }}
                   />
                 </ListItemButton>
-              ))} */}
+              ))}
             {openGenres &&
               genresList.map((item) => (
                 <ListItemButton
