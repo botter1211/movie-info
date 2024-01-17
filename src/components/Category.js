@@ -88,9 +88,10 @@ export default function Category() {
   };
 
   const handleSubmit = () => {
-
-    fetchData(searchParam);
-  }
+    if (searchParam) {
+      fetchData(searchParam);
+    }
+  };
   const placeholder = [0, 1, 2, 3];
   const detailSkeleton = (
     <Stack spacing={1}>
@@ -100,10 +101,11 @@ export default function Category() {
   );
   return (
     <>
+      <SearchBar onChange={handleChange} onSubmit={handleSubmit} />
       <Typography variant="h5" my={3}>
         CATEGORY
       </Typography>
-      <SearchBar onChange={handleChange} onSubmit={handleSubmit} />
+
       <Divider />
       <Stack flexDirection="row" width="100%" justifyContent="space-between">
         <Stack minWidth="150px" width={{ xs: "10%" }}>
@@ -235,15 +237,15 @@ export default function Category() {
         <Grid container direction="row" spacing={2} mt={2}>
           {loading
             ? placeholder.map((item) => (
-              <Grid item xs={10} sm={6} md={4} lg={3}>
-                {detailSkeleton}
-              </Grid>
-            ))
+                <Grid item xs={10} sm={6} md={4} lg={3}>
+                  {detailSkeleton}
+                </Grid>
+              ))
             : movieList.map((item) => (
-              <Grid item xs={10} sm={6} md={4} lg={3}>
-                <MCard key={item.id} item={item} />
-              </Grid>
-            ))}
+                <Grid item xs={10} sm={6} md={4} lg={3}>
+                  <MCard key={item.id} item={item} />
+                </Grid>
+              ))}
         </Grid>
       </Stack>
     </>

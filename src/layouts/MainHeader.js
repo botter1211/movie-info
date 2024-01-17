@@ -6,7 +6,6 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import SearchBar from "../components/SearchBar";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ChairIcon from "@mui/icons-material/Chair";
@@ -162,7 +161,7 @@ export default function PrimarySearchAppBar() {
             to="/"
             children={<ChairIcon />}
           />
-          <SearchBar />
+
           <Box sx={{ flexGrow: 1 }} />
           <Box
             sx={{
